@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load custom_filt %}
+
+  <main class="container mt-3">
+    <head>
+      <title>Вакансии компании</title>
+    </head>
+    <section>
+        <div class="text-center">
+        <img src="{{ object_list.0.company.logo.url }}" alt=""> <!--width="130" height="100"-->
+      </div>
+      <h1 class="h1 text-center mx-auto mt-0 pt-1" style="font-size: 60px;"><strong></strong></h1>
+      <p class="text-center pt-1">Компания, , Кол-во вакансий: {{ page_obj.paginator.count }}</p>
+
+      <p class="text-center pt-1"></p>
+      <div class="row mt-5">
+        <div class="col-12 col-lg-8 offset-lg-2 m-auto">
+          {% for vacancy in object_list %}
+          <div class="card mb-4">
+            <div class="card-body px-3 py-1">
+              <div class="row">
+                <div class="col-12 col-md-8 col-lg-9">
+                  <h2 class="h2 pb-2"><a href="{% url 'vacancy' vacancy.pk %}">{{ vacancy.title }}</a></h2>
+                  <p class="mb-2"><b>{{ vacancy.specialty }}</b> • {{ vacancy.skills|replace_comm:' • ' }}</p>
+                  <p>От {{ vacancy.salary_from|num_format }} до {{ vacancy.salary_to|num_format }} руб.</p>
+                  <p class="text-muted">{{ vacancy.posted}}</p>
+                </div>
+                <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center">
+<!--                  width="60" height="60"-->
+                  <img width="60" height="60" src="{{ vacancy.specialty.picture.url }}">
+                </div>
+              </div>
+            </div>
+          </div>
+          {% empty %}
+            <h2 class="text-center"> У выбранной компании нет вакансий</h2>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  </main>
+
+{% endblock %}

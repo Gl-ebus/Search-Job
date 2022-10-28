@@ -1,0 +1,111 @@
+{% extends 'company_app/base_company.html' %}
+{% block content_company %}
+<main class="container mt-3 pb-5">
+    <div class="row mt-5">
+      <!-- Боковая навигационная панель
+        Элемент <aside> html5 представляет собой раздел страницы с контентом, который может рассматриваться отдельно от основного содержания -->
+      <div class="col-12 col-lg-4">
+          <aside class="pt-3 pb-4 px-4 mb-5 card shadow p-1 mb-2 rounded">
+            <h1 class="h4 pt-2 pb-2">Моя компания</h1>
+            <div class="nav flex-column nav-pills">
+                <a class="nav-link" href="{% url 'company_start' %}">1. Информация о&nbsp;компании</a>
+                <a class="nav-link active" href="{% url 'company_vacancies' pk_company %}">2. Вакансии</a>
+            </div>
+          </aside>
+      </div>
+
+      <div class="col-12 col-lg-8">
+        <div class="card">
+          <div class="card-body px-4 pb-4 tab-content">
+            <section>
+              <h2 class="h4 pt-2 pb-3">Изменить вакансию</h2>
+              <form enctype="multipart/form-data" method="post">
+                  {% csrf_token %}
+                     {% if form.errors %}
+                       {% for field in form %}
+                          {% for error in field.errors %}
+                            <div class="text-danger">В поле <b>{{ field.label }}</b> {{ error|escape }}</div>
+                          {% endfor %}
+                       {% endfor %}
+                     {% endif %}
+
+                <div class="row">
+                  <div class="col-12 col-md-6">
+                    <div class="form-group pb-2">
+                      <label class="mb-2 text-dark">Название вакансии</label>
+                      <input class="form-control" value="{{ form.title.value }}" name="{{ form.title.name }}">
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <div class="form-group pb-2">
+                      <label class="mb-2 text-dark">Специализация</label>
+                      <select class="custom-select mr-sm-2" name="{{ form.specialty.name }}" value="{{ form.specialty.value }}">
+                          {% for spec in form.specialty%}
+                            {{ spec }}
+                          {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-12 col-md-6">
+                    <div class="form-group pb-2">
+                      <label class="mb-2 text-dark">Зарплата от</label>
+                      <input class="form-control" type="text" name="{{ form.salary_from.name }}" value="{{ form.salary_from.value }}">
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <div class="form-group pb-2">
+                      <label class="mb-2">Зарплата до</label>
+                      <input class="form-control" type="text" name="{{ form.salary_to.name }}" value="{{ form.salary_to.value }}">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group pb-2">
+                  <label class="mb-2 text-dark">Требуемые навыки (укажите их через запятую)</label>
+                  <textarea class="form-control" rows="2" name="{{ form.skills.name }}" style="color:#000;">
+                    {{ form.skills.value }}
+                  </textarea>
+                </div>
+
+                <div class="form-group pb-2">
+                  <label class="mb-2 text-dark">Описание вакансии</label>
+                  <textarea class="form-control" rows="15" name="{{ form.description.name }}" style="color:#000;">
+                    {% autoescape off %} {{ form.description.value }} {% endautoescape %}
+                  </textarea>
+                </div>
+
+                <div class="form-check pb-2 px-4">
+                  <input class="form-check-input" type="checkbox" name="{{ form.is_published.name }}"
+                    {% if form.is_published.value %} checked {% endif %} id="flexCheckDefault">
+                  <label class="form-check-label" for="flexCheckDefault"><b>Опубликовать.</b>
+                    Выбирете, если хотите чтобы вакансия была опубликавана для всех посетителей сайта
+                  </label>
+                </div>
+
+                <div class="row d-flex ">
+                    <div class="form-group col-6">
+                      <input type="submit" class="btn btn-info" value="Применить изменения">
+                    </div>
+
+                    <div class="col-6">
+                      <div class="d-flex justify-content-end">
+                        <a class="btn btn-outline-danger" role="button" href="{% url 'company_vac_del' pk_company object.pk %}">
+                          Удалить
+                        </a>
+                      </div>
+                    </div>
+                </div>
+              </form>
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'company_app/base_company.html' %}
+{% block content_company %} {% load custom_filt %}
+<main class="container mt-3 pb-5">
+    <div class="row mt-5">
+      <!-- Боковая навигационная панель
+        Элемент <aside> html5 представляет собой раздел страницы с контентом, который может рассматриваться отдельно от основного содержания -->
+      <div class="col-12 col-lg-4">
+          <aside class="pt-3 pb-4 px-4 mb-5 card shadow p-1 mb-2 rounded">
+            <h1 class="h4 pt-2 pb-2">Моя компания</h1>
+            <div class="nav flex-column nav-pills">
+                <a class="nav-link" href="{% url 'company_edit' pk_company %}">1. Информация о&nbsp;компании</a>
+                <a class="nav-link active" href="">2. Вакансии</a>
+            </div>
+          </aside>
+      </div>
+
+      <div class="col-12 col-lg-8">
+        <div class="card ">
+          <div class="card-body px-4 pb-4">
+            <section class="tab-pane fade show active">
+              <div class="row">
+                <div class="h4 pt-2 px-3 pb-3">Вакансии</div>
+                <div class="col pt-2">
+                  <div class="d-flex justify-content-end">
+                    <a href="{% url 'company_vac_create' pk_company %}" class="btn btn-primary"><b> + </b>Добавить</a>
+                  </div>
+                </div>
+              </div>
+              <!-- vacancy state 1 -->
+              {% for vacancy in object_list %}
+                <div class="card mt-3 shadow ">
+                  <div class="card-body px-4">
+                    <div class="row align-items-center">
+                      <div class="col-6 col-lg-8">
+                        <a href="{% url 'vacancy' vacancy.pk %}" class="mb-1">{{ vacancy.title }}</a>
+<!--                        style="font-size:80%; color:MediumSeaGreen;"-->
+                          {% if vacancy.is_published %}
+                            <span class="text-success" style="font-size:77%;">| Опубликовано</span>
+                          {% else %}
+                            <span class="text" style="font-size:77%;">| Не опубликовано</span>
+                          {% endif %}
+                        <p class="mb-1">
+                          <span class="mr-4">От {{ vacancy.salary_from|num_format }} руб.</span>
+                          {% if vacancy.count_resp %}
+                            <a href="{% url 'company_vac_resp' pk_company vacancy.pk  %}" class="text-info">
+                              Кол-во откликов: <span><b> {{vacancy.count_resp}}</b></span>
+                            </a>
+                          {% else %}
+                             <span class="text-secondary">Кол-во откликов: {{vacancy.count_resp}}</span>
+                          {% endif %}
+                        </p>
+                      </div>
+                      <div class="col-6 col-lg-4 text-right">
+                        <a href="{% url 'company_vac_update' pk_company vacancy.pk %}" class="btn btn-outline-info">Изменить</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% empty %}
+                      <h6 class="text"> Добавьте сюда вакансии в Вашей компании </h6>
+              {% endfor %}
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+</main>
+{% endblock %}

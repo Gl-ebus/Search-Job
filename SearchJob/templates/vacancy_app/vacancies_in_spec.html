@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load custom_filt %}
+
+  <main class="container mt-3">
+    <head>
+      <title>Вакансии по специальности</title>
+    </head>
+    <section>
+      <h1 class="h1 text-center mx-auto mt-4 pt-5" style="font-size: 70px;"><strong>{{ object_list.0.specialty.name }}</strong></h1>
+
+      <div class="row mt-5">
+        <div class="col-12 col-lg-8 offset-lg-2 m-auto">
+          {% for vacancy in object_list %}
+          <div class="card mb-4">
+            <div class="card-body px-3 py-1">
+              <div class="row">
+                <div class="col-12 col-md-8 col-lg-9">
+                  <h2 class="h2 pb-2"><a href="{% url 'vacancy' vacancy.pk %}">{{ vacancy.title }}</a></h2>
+                  <p class="mb-2">{{ vacancy.skills|replace_comm:' • ' }}</p>
+                  <p>От {{ vacancy.salary_from|num_format }} до {{ vacancy.salary_to|num_format }} руб.</p>
+                  <p class="text-muted pt-1">{{ vacancy.posted}}</p>
+                </div>
+                <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center">
+<!--                  width="130" height="80"-->
+                  <img class='mx-auto d-block mw-100' src="{{ vacancy.company.logo.url }}" >
+                </div>
+              </div>
+            </div>
+          </div>
+          {% empty %}
+            <h2 class="text-center"> По выбранной специализации вакансий нет</h2>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  </main>
+
+{% endblock %}

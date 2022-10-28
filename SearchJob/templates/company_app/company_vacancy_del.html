@@ -1,0 +1,41 @@
+{% extends 'company_app/base_company.html' %}
+{% block content_company %}
+<main class="container mt-3 pb-5">
+    <div class="row mt-5">
+      <!-- Боковая навигационная панель
+        Элемент <aside> html5 представляет собой раздел страницы с контентом, который может рассматриваться отдельно от основного содержания -->
+      <div class="col-12 col-lg-4">
+          <aside class="pt-3 pb-4 px-4 mb-5 card shadow p-1 mb-2 rounded">
+            <h1 class="h4 pt-2 pb-2">Моя компания</h1>
+            <div class="nav flex-column nav-pills">
+                <a class="nav-link active" href="{% url 'company_start' %}">1. Информация о&nbsp;компании</a>
+                <a class="nav-link" href="{% url 'company_vacancies' pk_company %}">2. Вакансии</a>
+            </div>
+          </aside>
+      </div>
+
+      <div class="col-12 col-lg-6">
+        <div class="card mb-2 shadow p-1 mb-2 rounded">
+          <div class="card-body">
+            <form method="post">{% csrf_token %}
+                <div class="row">
+                    <div class="form-group">
+                        <h5 class="text-center"> Вы уверены, что хотите удалить с сайта вакансию <b>'{{ object.title }}' ?</b>
+                        {{ form }}</h5>
+                    </div>
+                    <div class="col-6">
+                        <a class="btn btn-outline-info btn-lg" role="button" href="{% url 'company_vacancies' pk_company %}">  Нет  </a>
+                    </div>
+                    <div class="col-6">
+                         <div class="d-flex justify-content-end">
+                             <input class="btn btn-outline-danger btn-lg" type="submit" value=" Да ">
+                         </div>
+                    </div>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+</main>
+{% endblock %}

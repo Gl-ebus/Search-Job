@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load custom_filt %}
+
+  <main class="container mt-3 pb-5">
+    <div class="row mt-5">
+      <div class="col-12 col-lg-2">
+        <div class="pl-3 mb-5">
+          <p><a href="#">Назад</a></p>
+        </div>
+      </div>
+      <div class="col-12 col-lg-8">
+        <section class="pl-3">
+          <a href="#"><img class="mx-auto d-block mw-100" src="{{ object.company.logo.url }}"></a>
+          <div class="d-flex align-items-baseline align-content-baseline">
+            <h3 class="mt-4 font-weight-bold"> {{ object.title }}</h3>
+            <p class="m-0 pl-3">{{ object.salary_from|num_format }} - {{ object.salary_to|num_format }} руб.</p>
+          </div>
+          <p class="mt-2"><b>{{ object.skills|replace_comm:' • ' }}</b></p>
+          <p class="text-muted mb-4">{{ object.company.title }} ({{object.company.employee_count}} человек), {{object.company.location}}</p>
+          <div style="line-height: 1.8;">
+            <p>{{ object.company.description }} </p>
+            <p><b> Описание: </b><br></p>
+            {% autoescape off %}
+              <p>{{ object.description }}</p>
+            {% endautoescape %}
+          </div>
+
+          <form method="post" action="{% url 'vacancy' object.pk %}" class="card mt-4 mb-3" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="card-body mx-3">
+              <p class="h5 mt-3 font-weight-normal">Отозваться на вакансию</p>
+              {% if form.errors %}
+              {% for field in form %}
+                {% for error in field.errors %}
+                  <div class="text-danger">В поле <b>{{ field.label }}</b> {{ error|escape }}</div>
+                {% endfor %}
+              {% endfor %}
+              {% endif %}
+              <div class="form-group">
+                <label class="mb-1 mt-2">Вас зовут</label>
+                <input class="form-control" type="text" name="name"
+                       value="{{form.name.value|default_if_none:''}}">
+              </div>
+              <div class="form-group">
+                <label class="mb-1">Ваш мобильный телефон</label>
+                <input class="form-control" type="tel" placeholder="+7 999 999 9999" name="phone">
+              </div>
+              <div class="form-group">
+                <label class="mb-1">Сопроводительное письмо</label>
+                <textarea class="form-control" rows="8" name="cover_letter">{{ form.cover_letter.value|default_if_none:""}}
+                </textarea>
+              </div>
+              <input type="submit" class="btn btn-primary mt-4 mb-2" value="Отправить отклик на вакансию">
+            </div>
+          </form>
+
+        </section>
+      </div>
+    </div>
+  </main>
+{% endblock %}

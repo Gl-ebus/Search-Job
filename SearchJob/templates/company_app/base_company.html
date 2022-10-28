@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<head>
+  <style>
+    body {background-color: #F6F2E6; }
+  </style>
+  <title>Моя компания</title>
+</head>
+
+<!--  <main class="container mt-3 pb-5">-->
+<!--    <div class="row mt-5">-->
+<!--      &lt;!&ndash; Боковая навигационная панель-->
+<!--        Элемент <aside> html5 представляет собой раздел страницы с контентом, который может рассматриваться отдельно от основного содержания &ndash;&gt;-->
+<!--      <div class="col-12 col-lg-4">-->
+<!--          <aside class="pt-3 pb-4 px-4 mb-5 card">-->
+<!--            <h1 class="h4 pt-2 pb-2">Моя компания</h1>-->
+<!--            <div class="nav flex-column nav-pills">-->
+<!--                <a class="nav-link active" href="#">1. Информация о&nbsp;компании</a>-->
+<!--                <a class="nav-link" href="#">2. Вакансии</a>-->
+<!--            </div>-->
+<!--          </aside>-->
+<!--      </div>-->
+
+      {% block content_company %} {% endblock %}
+<!--     </div>-->
+<!--  </main>-->
+
+
+{% endblock %}
