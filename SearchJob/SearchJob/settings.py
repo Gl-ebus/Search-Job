@@ -84,12 +84,12 @@ WSGI_APPLICATION = 'SearchJob.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.getenv('DBNAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_SEC'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'job_search',
+        'USER': 'enter username',
+        'PASSWORD': 'enter password',
         'HOST': 'localhost',
-        'PORT': '5432'
+        'PORT': '3306'
                 }
     }
 
