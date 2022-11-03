@@ -17,7 +17,6 @@ from django.contrib import admin
 from django.contrib.auth.views import LogoutView
 from django.urls import path, re_path, include
 from django.conf import settings
-from django.conf.urls.static import static
 from django.views.static import serve
 
 from company_app.views import *
@@ -44,10 +43,11 @@ urlpatterns = [
     path('profile/company/<int:pk>/vacancy/del/<int:pk_vac>/', CompanyVacancyDelView.as_view(), name='company_vac_del'),
     path('profile/company/<int:pk>/del/', CompanyDelView.as_view(), name='company_del'),
 
-
     path('register/', RegisterUserView.as_view(), name='register'),
     path('login/', LoginUserView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
+
+    path('about/', TemplateView.as_view(template_name='about.html'), name='about'),
 ]
 
 urlpatterns += [re_path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT})]
